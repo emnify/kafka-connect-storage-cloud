@@ -508,6 +508,7 @@ public class TopicPartitionWriter {
             + extension;
     return fileKey(topicsDir, dirPrefix, name);
   }
+
   private boolean writeRecord(SinkRecord record, String encodedPartition) {
     RecordWriter writer = writers.get(encodedPartition);
     long currentOffsetIfSuccessful = record.kafkaOffset();
