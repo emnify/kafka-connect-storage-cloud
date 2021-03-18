@@ -64,7 +64,6 @@ public class CsvRecordWriterProvider extends RecordViewSetter
 
       @Override
       public void write(SinkRecord record) {
-        log.trace("Sink record with view {}: {}", recordView, record);
         try {
           Object value = recordView.getView(record, false);
           // only Struct is supported. Anything else ignored
