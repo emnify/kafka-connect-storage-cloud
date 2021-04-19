@@ -715,6 +715,7 @@ public class S3SinkConnectorConfig extends StorageSinkConnectorConfig {
               Width.LONG,
               "Filename date format");
     }
+
     return configDef;
   }
 
@@ -1168,6 +1169,9 @@ public class S3SinkConnectorConfig extends StorageSinkConnectorConfig {
       return name().toLowerCase(Locale.ROOT);
     }
   }
+
+
+
 
   public static void main(String[] args) {
     System.out.println(getConfig().toEnrichedRst());
