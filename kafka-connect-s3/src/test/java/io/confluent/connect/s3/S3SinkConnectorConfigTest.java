@@ -17,6 +17,7 @@ package io.confluent.connect.s3;
 
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentialsProvider;
+import com.google.common.collect.Lists;
 import io.confluent.connect.s3.format.bytearray.ByteArrayFormat;
 import io.confluent.connect.s3.format.csv.CsvFormat;
 import io.confluent.connect.s3.format.parquet.ParquetFormat;
@@ -28,10 +29,7 @@ import org.apache.parquet.hadoop.metadata.CompressionCodecName;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import io.confluent.connect.s3.auth.AwsCustRoleCredentialsProvider;
@@ -50,11 +48,7 @@ import io.confluent.connect.avro.AvroDataConfig;
 
 import static io.confluent.connect.s3.S3SinkConnectorConfig.HEADERS_FORMAT_CLASS_CONFIG;
 import static io.confluent.connect.s3.S3SinkConnectorConfig.KEYS_FORMAT_CLASS_CONFIG;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class S3SinkConnectorConfigTest extends S3SinkConnectorTestBase {
 
@@ -140,6 +134,18 @@ public class S3SinkConnectorConfigTest extends S3SinkConnectorTestBase {
     connectorConfig = new S3SinkConnectorConfig(properties);
     assertEquals(true, connectorConfig.get(AvroDataConfig.ENHANCED_AVRO_SCHEMA_SUPPORT_CONFIG));
     assertEquals(false, connectorConfig.get(AvroDataConfig.CONNECT_META_DATA_CONFIG));
+  }
+
+  @Test
+  public void testCsvConverterConfigSupported() {
+    properties.put("csv.fields.list", "test.header,anotherHeader");
+    properties.put("csv.field.sep", ",");
+    connectorConfig = new S3SinkConnectorConfig(properties);
+    String[] headerList = new String[2];
+    headerList[0] = "test.header";
+    headerList[1] = "anotherHeader";
+    assertEquals(",", connectorConfig.getString("csv.field.sep"));
+    assertArrayEquals(headerList, connectorConfig.getList("csv.fields.list").toArray());
   }
 
   @Test
