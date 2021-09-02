@@ -21,7 +21,7 @@
     <parent>
         <groupId>io.confluent</groupId>
         <artifactId>kafka-connect-storage-cloud</artifactId>
-        <version>10.1.0-SNAPSHOT</version>
+        <version>10.0.4-EMNIFY</version>
     </parent>
 
     <artifactId>kafka-connect-s3</artifactId>
@@ -255,6 +255,7 @@
                             <descriptors>
                                 <descriptor>src/assembly/standalone.xml</descriptor>
                             </descriptors>
+                            <attach>true</attach>
                         </configuration>
                     </plugin>
                 </plugins>
