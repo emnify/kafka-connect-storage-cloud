@@ -30,6 +30,7 @@ import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.apache.parquet.hadoop.metadata.CompressionCodecName;
 import org.codehaus.plexus.util.StringUtils;
+import org.hamcrest.MatcherAssert;
 import org.junit.After;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
@@ -55,13 +56,11 @@ import io.confluent.connect.s3.storage.S3Storage;
 import io.confluent.connect.s3.util.FileUtils;
 import io.confluent.connect.storage.StorageSinkConnectorConfig;
 import io.confluent.connect.storage.partitioner.DefaultPartitioner;
-import io.confluent.connect.storage.partitioner.Partitioner;
 import io.confluent.connect.storage.partitioner.PartitionerConfig;
 import io.confluent.connect.storage.partitioner.TimeBasedPartitioner;
 import io.confluent.kafka.serializers.NonRecordContainer;
 import org.testcontainers.shaded.com.google.common.collect.ImmutableList;
 
-import static io.confluent.connect.s3.DataWriterAvroTest.EXTENSION;
 import static org.apache.kafka.common.utils.Time.SYSTEM;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -72,7 +71,9 @@ import static org.junit.Assert.assertTrue;
 
 public class DataWriterParquetTest extends DataWriterTestBase<ParquetFormat> {
 
+  private static final String EXTENSION = ".snappy.parquet";
   private static final String ZERO_PAD_FMT = "%010d";
+
 
   public DataWriterParquetTest() {
     super(ParquetFormat.class);
@@ -103,7 +104,7 @@ public class DataWriterParquetTest extends DataWriterTestBase<ParquetFormat> {
     format = new ParquetFormat(storage);
 
     s3.createBucket(S3_TEST_BUCKET_NAME);
-    assertTrue(s3.doesBucketExist(S3_TEST_BUCKET_NAME));
+    assertTrue(s3.doesBucketExistV2(S3_TEST_BUCKET_NAME));
   }
 
   @After
@@ -950,7 +951,7 @@ public class DataWriterParquetTest extends DataWriterTestBase<ParquetFormat> {
 
     Collections.sort(actualFiles);
     Collections.sort(expectedFiles);
-    assertThat(actualFiles, is(expectedFiles));
+    MatcherAssert.assertThat(actualFiles, is(expectedFiles));
   }
 
   protected void verifyContents(List<SinkRecord> expectedRecords, int startIndex, Collection<Object> records) {
