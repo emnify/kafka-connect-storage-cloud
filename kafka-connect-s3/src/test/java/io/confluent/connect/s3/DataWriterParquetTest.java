@@ -16,6 +16,7 @@
 
 package io.confluent.connect.s3;
 
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import io.confluent.connect.s3.format.parquet.ParquetRecordWriterProvider;
 import org.apache.avro.util.Utf8;
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
@@ -985,7 +986,7 @@ public class DataWriterParquetTest extends DataWriterTestBase<ParquetFormat> {
   }
 
   protected List<String> getExpectedFiles(long[] validOffsets, TopicPartition tp) {
-    return getExpectedFiles(validOffsets, tp, this.extension);
+    return getExpectedFiles(validOffsets, tp, EXTENSION);
   }
 
   protected List<String> getExpectedFiles(long[] validOffsets, TopicPartition tp, String extension) {
