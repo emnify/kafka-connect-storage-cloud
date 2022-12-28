@@ -60,6 +60,7 @@ import io.confluent.connect.storage.partitioner.TimeBasedPartitioner;
 import io.confluent.kafka.serializers.NonRecordContainer;
 import org.testcontainers.shaded.com.google.common.collect.ImmutableList;
 
+import static io.confluent.connect.s3.DataWriterAvroTest.EXTENSION;
 import static org.apache.kafka.common.utils.Time.SYSTEM;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
