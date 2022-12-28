@@ -69,7 +69,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class DataWriterAvroTest extends DataWriterTestBase<AvroFormat> {
 
-  protected static final String EXTENSION = ".avro";
+  protected static final String EXTENSION = ".snappy.parquet";
   private String prevMd5Prop = null;
 
   public DataWriterAvroTest() {
