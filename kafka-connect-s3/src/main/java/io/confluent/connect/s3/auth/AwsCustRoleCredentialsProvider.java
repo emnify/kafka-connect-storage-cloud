@@ -89,7 +89,8 @@ public class AwsCustRoleCredentialsProvider implements AWSCredentialsProvider, C
     roleSessionName = config.getString(ROLE_SESSION_NAME_CONFIG);
     baseRoleArn = config.getString(BASE_ROLE_ARN_CONFIG);
     baseRoleSessionName = config.getString(BASE_ROLE_SESSION_NAME_CONFIG);
-    stsCredentialsProvider = new STSAssumeRoleSessionCredentialsProvider.Builder(roleArn, roleSessionName)
+    stsCredentialProvider = new STSAssumeRoleSessionCredentialsProvider
+            .Builder(roleArn, roleSessionName)
         .withStsClient(getBaseSecurityTokenService())
         .withExternalId(roleExternalId)
         .build();
@@ -97,7 +98,7 @@ public class AwsCustRoleCredentialsProvider implements AWSCredentialsProvider, C
 
   @Override
   public AWSCredentials getCredentials() {
-    return stsCredentialsProvider.getCredentials();
+    return stsCredentialProvider.getCredentials();
   }
 
   public AWSSecurityTokenService getBaseSecurityTokenService() {

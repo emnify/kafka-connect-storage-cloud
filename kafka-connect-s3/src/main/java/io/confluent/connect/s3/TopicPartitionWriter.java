@@ -57,20 +57,6 @@ import java.util.Optional;
 import java.util.Comparator;
 import java.util.Queue;
 
-import io.confluent.common.utils.SystemTime;
-import io.confluent.common.utils.Time;
-import io.confluent.connect.storage.StorageSinkConnectorConfig;
-import io.confluent.connect.storage.common.StorageCommonConfig;
-import io.confluent.connect.storage.common.util.StringUtils;
-import io.confluent.connect.storage.format.RecordWriter;
-import io.confluent.connect.storage.format.RecordWriterProvider;
-import io.confluent.connect.storage.partitioner.Partitioner;
-import io.confluent.connect.storage.partitioner.PartitionerConfig;
-import io.confluent.connect.storage.partitioner.TimeBasedPartitioner;
-import io.confluent.connect.storage.partitioner.TimestampExtractor;
-import io.confluent.connect.storage.schema.StorageSchemaCompatibility;
-import io.confluent.connect.storage.util.DateTimeUtils;
-
 import static io.confluent.connect.s3.S3SinkConnectorConfig.S3_PART_RETRIES_CONFIG;
 import static io.confluent.connect.s3.S3SinkConnectorConfig.S3_RETRY_BACKOFF_CONFIG;
 
@@ -203,7 +189,9 @@ public class TopicPartitionWriter {
     if (StringUtils.isNotBlank(connectorConfig.getString(
             S3SinkConnectorConfig.S3_FILENAME_DATE_FORMAT_CONFIG))) {
       filenameDateTimeFormatter = DateTimeFormatter.ofPattern(
-              connectorConfig.getString(S3SinkConnectorConfig.S3_FILENAME_DATE_FORMAT_CONFIG).replace("YYYY", "yyyy"));
+              connectorConfig.getString(
+                      S3SinkConnectorConfig.S3_FILENAME_DATE_FORMAT_CONFIG).replace(
+                              "YYYY", "yyyy"));
     } else {
       filenameDateTimeFormatter = DateTimeFormatter.ISO_INSTANT;
     }
