@@ -66,8 +66,10 @@ spec:
     }
     stage('Deploy') {
       when {
-        branch 'emnify-10.x'
-        branch 'emnify-11.x'
+        anyOf {
+          branch 'emnify-10.x'
+          branch 'emnify-11.x'
+        }
       }
       steps {
         sh 'mvn deploy -q -B -s settings.xml -P standalone -DskipTests -Dspotbugs.skip=true'
